@@ -21,7 +21,7 @@ pipeline {
                 expression { return params.RUN_UI_TESTS }
             }
             steps {
-                sh 'mvn -B verify -DskipUnitTests=true'
+                bat 'mvn -B verify -DskipUnitTests=true'
             }
         }
 
