@@ -1,3 +1,4 @@
+    
 pipeline {
     agent any
     tools {
@@ -13,8 +14,15 @@ pipeline {
 
         stage('Build and Test') {
             steps {
-                bat 'mvn clean test package'
+                sh 'mvn clean test package'
             }
         }
     }
+
+    post {
+        always {
+            junit 'target/surefire-reports/*.xml'
+        }
+    }
 }
+
