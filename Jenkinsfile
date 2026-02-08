@@ -43,6 +43,8 @@ pipeline {
     // POST ACTIONS
     post {
         always {
+            archiveArtifacts allowEmptyArchive: true,
+                             artifacts: 'target/screenshots/**'
             junit allowEmptyResults: true,
                   testResults: 'target/surefire-reports/*.xml,target/failsafe-reports/*.xml'
         }
