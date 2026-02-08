@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    tools {
+        maven 'Maven_3'
+    }
 
     stages {
         stage('Checkout') {
@@ -10,7 +13,7 @@ pipeline {
 
         stage('Build and Test') {
             steps {
-                bat 'C:\\Users\\ivanl\\Documents\\apache-maven-3.9.10-bin\\apache-maven-3.9.10\\bin\\mvn.cmd clean test package'
+                bat 'mvn clean test package'
             }
         }
     }
