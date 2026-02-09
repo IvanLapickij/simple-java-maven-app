@@ -24,7 +24,7 @@ pipeline {
         // SECURE STEP GITHUB TOKENs
         stage('Secure Step') {
             steps {
-                bat 'echo "Token length is ${#GITHUB_TOKEN}"'
+                powershell '$len = $env:GITHUB_TOKEN.Length; Write-Host "Token length is $len"'
             }
         }
 
@@ -38,7 +38,7 @@ pipeline {
         // BUILD AND UNIT TESTS
         stage('Build and Test') {
             steps {
-                bat 'mvn clean test package'
+                powershell 'mvn clean test package'
             }
         }
 
@@ -48,7 +48,7 @@ pipeline {
                 expression { return params.RUN_UI_TESTS }
             }
             steps {
-                bat 'mvn -B verify -DskipUnitTests=true'
+                powershell 'mvn -B verify -DskipUnitTests=true'
             }
         }
     }
