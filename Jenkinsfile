@@ -1,7 +1,13 @@
+/* groovylint-disable CompileStatic */
 // Selenium tests are executed only when enabled using a Jenkins parameter.
 
 pipeline {
     agent any
+
+    environment {
+        GITHUB_TOKEN = credentials('github-token')
+    }
+
     tools {
         maven 'Maven_3'
     }
@@ -15,6 +21,20 @@ pipeline {
     }
 
     stages {
+        // SCM CHECKOUT
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        // BUILD AND UNIT TESTS
+        stage('Build and Test') {
+            steps {
+                bat 'mvn clean test package'
+            }
+        }
+
         // SELENIUM STAGE
         stage('UI Tests (Selenium)') {
             when {
@@ -22,20 +42,6 @@ pipeline {
             }
             steps {
                 bat 'mvn -B verify -DskipUnitTests=true'
-            }
-        }
-
-        // JENKINS STAGE
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        // BUILD AND TEST STAGE
-        stage('Build and Test') {
-            steps {
-                bat 'mvn clean test package'
             }
         }
     }
