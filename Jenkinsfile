@@ -4,8 +4,8 @@ pipeline {
     agent any
     // Define environment variables, including the GitHub token retrieved from Jenkins credentials
     environment {
-        GITHUB_TOKEN = credentials('github-token'),
-        SONAR_HOST_URL = 'http://localhost:9000',
+        GITHUB_TOKEN = credentials('github-token')
+        SONAR_HOST_URL = 'http://localhost:9000'
         SONAR_LOGIN = credentials('sonar-token')
     }
     // Define the Maven tool to be used in the pipeline
