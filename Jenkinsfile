@@ -34,10 +34,10 @@ pipeline {
             }
         }
 
-        // BUILD AND UNIT TESTS
-        stage('Build and Test') {
+        // BUILD, TESTS, AND COVERAGE
+        stage('Build, Test & Coverage') {
             steps {
-                powershell 'mvn clean test package'
+                powershell 'mvn clean verify'
             }
         }
 
@@ -48,6 +48,24 @@ pipeline {
             }
             steps {
                 powershell 'mvn -B verify -DskipUnitTests=true'
+            }
+        }
+
+        // SONARQUBE ANALYSIS
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('LocalSonar') {
+                    powershell 'mvn sonar:sonar -Dsonar.projectKey=simple-java-maven-app'
+                }
+            }
+        }
+
+        // QUALITY GATE
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 2, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
     }
