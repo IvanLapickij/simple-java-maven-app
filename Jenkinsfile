@@ -57,7 +57,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('LocalSonar') {
-                    powershell 'mvn sonar:sonar -Dsonar.projectKey=simple-java-maven-app -Dsonar.token=$env:SONAR_TOKEN'
+                    powershell 'mvn sonar:sonar "-Dsonar.projectKey=simple-java-maven-app" "-Dsonar.host.url=$env:SONAR_HOST_URL" "-Dsonar.token=$env:SONAR_TOKEN"'
                 }
             }
         }
