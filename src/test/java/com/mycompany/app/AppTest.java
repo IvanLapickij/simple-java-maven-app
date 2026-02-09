@@ -2,6 +2,9 @@ package com.mycompany.app;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -21,5 +24,18 @@ public class AppTest
     {
         App app = new App();
         assertEquals("Hello World!", app.getMessage());
+    }
+
+    @Test
+    public void testMainPrintsMessage() {
+        PrintStream originalOut = System.out;
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        try {
+            System.setOut(new PrintStream(outContent));
+            App.main(new String[0]);
+        } finally {
+            System.setOut(originalOut);
+        }
+        assertEquals("Hello World!" + System.lineSeparator(), outContent.toString());
     }
 }
