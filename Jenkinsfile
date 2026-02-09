@@ -6,7 +6,7 @@ pipeline {
     environment {
         GITHUB_TOKEN = credentials('github-token')
         SONAR_HOST_URL = 'http://localhost:9000'
-        SONAR_LOGIN = credentials('sonar-token')
+        SONAR_TOKEN = credentials('sonar-token')
     }
     // Define the Maven tool to be used in the pipeline
     tools {
@@ -57,9 +57,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('LocalSonar') {
-                    withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
-                        powershell 'mvn sonar:sonar -Dsonar.projectKey=simple-java-maven-app -Dsonar.token=$env:SONAR_TOKEN'
-                    }
+                    powershell 'mvn sonar:sonar -Dsonar.projectKey=simple-java-maven-app -Dsonar.token=$env:SONAR_TOKEN'
                 }
             }
         }
